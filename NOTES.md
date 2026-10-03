@@ -11,7 +11,6 @@
   - **main**: 부모님·부모님 지인용. 글자 크기 조절('가' 버튼), 큰 버튼, 존댓말 문구
   - **developer**: 친구·개발자용. 에디터/터미널 콘셉트
   - **release**: 예식 시각 전 `403` 잠금, 후에는 릴리스 노트 모양의 감사 인사
-- 코드는 **처음부터 새로 쓴 것**입니다. [NerdKim 의 wedding-invitation-for-nerds](https://github.com/nerdkim/wedding-invitation-for-nerds) 의 *구조 아이디어*(설정 파일 → build → 페이지, 계좌 난독화, 예식 후 열리는 release)에서 영감을 받았을 뿐, 그 저장소의 코드를 가져오지 않았습니다.
 
 ---
 
