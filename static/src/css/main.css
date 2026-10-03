@@ -1,0 +1,97 @@
+/* ==========================================================
+   main.css — 부모님과 어른들께 보내는 버전
+   - 글자를 크게, 대비를 높게, 버튼을 크게. 오른쪽 위 '가' 버튼으로 글자 크기를 바꿀 수 있습니다.
+   - 공통 부품(버튼, 갤러리, 폼 …)은 common.css 에 있습니다.
+   ========================================================== */
+:root {
+  --outer: #D9DFDA;
+  --bg: #F2F4F1;
+  --band: #E6EAE6;
+  --panel: #FFFFFF;
+  --ink: #1D2830;
+  --muted: #46555E;
+  --line: #C3CCC7;
+  --acc: #A82F26;      /* 도장 색 */
+  --night: #26343D;
+  --radius: 2px;
+  --font-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-head: "Noto Serif KR", "Nanum Myeongjo", "Batang", serif;
+  --font-label: var(--font-body);
+}
+html { font-size: 17px; }
+html[data-size="l"] { font-size: 19.5px; }
+html[data-size="xl"] { font-size: 22px; }
+
+body { background: var(--outer); color: var(--ink); font: 300 1rem/1.85 var(--font-body); -webkit-font-smoothing: antialiased; }
+.page { max-width: 480px; margin: 0 auto; background: var(--bg); min-height: 100vh; overflow: hidden; }
+
+.fsz { position: fixed; top: calc(10px + env(safe-area-inset-top)); right: 10px; z-index: 40; width: 46px; height: 46px; border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .7); background: rgba(20, 28, 34, .55); color: #fff; font: 500 17px var(--font-head); line-height: 1; backdrop-filter: blur(4px); }
+.fsz[data-level="l"] { font-size: 20px; }
+.fsz[data-level="xl"] { font-size: 23px; }
+
+/* ---------- 표지 ---------- */
+.cover { position: relative; isolation: isolate; display: grid; grid-template-rows: auto 1fr auto; min-height: 100vh; min-height: 100svh;
+  padding: calc(30px + env(safe-area-inset-top)) 24px calc(30px + env(safe-area-inset-bottom)); color: #fff; background: var(--night); text-align: center; }
+.cover-photo { position: absolute; inset: 0; z-index: -2; border: 0; aspect-ratio: auto; background: var(--night); }
+.cover::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to bottom, rgba(18, 26, 31, .62), rgba(18, 26, 31, .12) 42%, rgba(18, 26, 31, .74)); }
+.cover-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cover-date { font-size: .95rem; letter-spacing: .12em; padding: 0 44px; }
+.cover h1 { display: flex; justify-content: center; align-items: center; gap: clamp(26px, 11vw, 52px); align-self: center; font-weight: 600; }
+.vname { writing-mode: vertical-rl; font-family: var(--font-head); font-weight: 600; font-size: clamp(32px, 10vw, 44px); letter-spacing: .3em; line-height: 1.1; }
+.seal { display: grid; place-items: center; width: 42px; height: 42px; background: var(--acc); color: #fff; font: 700 24px/1 var(--font-head); transform: rotate(-4deg); flex: none; }
+.cover-bottom { font-size: .95rem; letter-spacing: .05em; }
+.cover-bottom .en { font-family: var(--font-head); font-size: .85rem; letter-spacing: .14em; opacity: .88; margin-bottom: 6px; }
+@media (prefers-reduced-motion: no-preference) {
+  .vname { animation: rise 1.2s cubic-bezier(.2, .7, .2, 1) both; }
+  .vname.b { animation-delay: .18s; }
+  .seal { animation: stamp .5s cubic-bezier(.3, 1.6, .5, 1) .85s both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  @keyframes stamp { from { opacity: 0; transform: rotate(-4deg) scale(1.9); } to { opacity: 1; transform: rotate(-4deg) scale(1); } }
+}
+.release-banner { margin: 0; font-size: .95rem; padding: 16px; }
+
+/* ---------- 섹션 ---------- */
+.sec { padding: 78px 26px; text-align: center; }
+.sec.band { background: var(--band); }
+.sec h2 { font: 600 1.25rem/1.4 var(--font-head); letter-spacing: .14em; margin-bottom: 30px; }
+.lead { margin: -12px 0 26px; color: var(--muted); font-size: .92rem; }
+.hint { margin-top: 12px; color: var(--muted); font-size: .85rem; }
+
+/* 인사말 */
+.greet-title { font: 600 1.35rem/1.7 var(--font-head); margin-bottom: 22px; }
+.greet-text { font: 400 1.05rem/2.15 var(--font-head); }
+.family { margin-top: 42px; padding-top: 36px; border-top: 1px solid var(--line); font-size: 1rem; line-height: 2.1; }
+.family strong { font-family: var(--font-head); font-weight: 700; font-size: 1.1em; }
+.family p + p { margin-top: 8px; }
+
+/* 신랑 · 신부 */
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.person h3 { margin-top: 14px; font: 600 1.15rem/1.4 var(--font-head); }
+.person .en { font-size: .78rem; letter-spacing: .1em; color: var(--muted); }
+.person .intro { margin-top: 8px; font-size: .88rem; line-height: 1.7; color: var(--muted); white-space: pre-line; }
+.person .photo { background: var(--night); aspect-ratio: 4 / 5; }
+
+/* 예식 안내 */
+.when-date { font: 600 1.45rem/1.6 var(--font-head); }
+.when-time { font: 400 1.15rem var(--font-head); color: var(--muted); }
+.when-venue { margin-top: 6px; font-size: .95rem; color: var(--muted); }
+.cal-box { margin: 34px auto 0; max-width: 340px; font-size: .95rem; }
+.dday { margin-top: 32px; font: 600 1.15rem var(--font-head); }
+.dday b { color: var(--acc); font-size: 1.5em; }
+
+/* 오시는 길 */
+.venue { font: 700 1.4rem/1.5 var(--font-head); }
+.hall { font: 400 1.05rem var(--font-head); color: var(--muted); }
+.addr { margin-top: 14px; justify-content: center; }
+.maps { margin-top: 22px; justify-content: center; }
+.info { margin-top: 40px; text-align: left; }
+.info dd { color: var(--muted); font-size: .95rem; }
+
+/* 마무리 */
+.closing .photo { margin: 0 -26px 40px; border-left: 0; border-right: 0; background: var(--night); }
+.closing .msg { font: 400 1.05rem/2.1 var(--font-head); }
+.closing .names { margin-top: 34px; font: 600 1.2rem var(--font-head); letter-spacing: .16em; }
+.closing .share { margin-top: 28px; justify-content: center; }
+.closing .other { margin-top: 36px; font-size: .85rem; color: var(--muted); }
+.closing .other a { color: var(--ink); }

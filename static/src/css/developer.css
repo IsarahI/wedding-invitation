@@ -1,0 +1,128 @@
+/* ==========================================================
+   developer.css — 개발자 스타일 (IDE · 터미널 콘셉트)
+   공통 부품(버튼, 갤러리, 폼 …)은 common.css 에 있습니다. 여기는 이 화면만의 모양입니다.
+   라이트/다크는 기기 설정을 따르고, 우측 상단 버튼으로 바꿀 수 있습니다.
+   ========================================================== */
+:root {
+  --outer: #E4E8EC;
+  --bg: #F4F6F8;
+  --panel: #FFFFFF;
+  --ink: #1F2933;
+  --muted: #5B6773;
+  --line: #D5DBE1;
+  --acc: #C2185B;      /* 강조(♥, D-day) */
+  --k: #6B46C1;        /* keyword */
+  --s: #0A7A55;        /* string */
+  --n: #A24A00;        /* number */
+  --f: #0B5CAD;        /* function */
+  --radius: 4px;
+  --font-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-head: var(--font-body);
+  --font-label: "JetBrains Mono", "D2Coding", ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans KR", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --outer: #0A0D11; --bg: #10141A; --panel: #171C24; --ink: #DCE3EA; --muted: #9AA7B4; --line: #2A323D;
+    --acc: #FF8FB5; --k: #B9A1FF; --s: #7EDDB2; --n: #F5B97F; --f: #82B9FF;
+  }
+}
+:root[data-theme="dark"] {
+  --outer: #0A0D11; --bg: #10141A; --panel: #171C24; --ink: #DCE3EA; --muted: #9AA7B4; --line: #2A323D;
+  --acc: #FF8FB5; --k: #B9A1FF; --s: #7EDDB2; --n: #F5B97F; --f: #82B9FF;
+}
+
+body { background: var(--outer); color: var(--ink); font: 300 15px/1.8 var(--font-body); -webkit-font-smoothing: antialiased; }
+.mono { font-family: var(--font-label); }
+.c { color: var(--muted); }
+.k { color: var(--k); } .s { color: var(--s); } .n { color: var(--n); } .f { color: var(--f); } .acc { color: var(--acc); }
+.page { max-width: 520px; margin: 0 auto; background: var(--bg); min-height: 100vh; overflow: hidden; }
+
+.theme { position: fixed; top: calc(10px + env(safe-area-inset-top)); right: 10px; z-index: 40; width: 44px; height: 44px;
+  border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 50%; font-size: 18px; line-height: 1; opacity: .92; }
+
+/* ---------- 파일 섹션 (탭 머리글) ---------- */
+.file { padding: 0 0 8px; }
+.tab { display: flex; border-bottom: 1px solid var(--line); background: var(--panel); }
+.tab span { padding: 9px 16px; font: 500 13px/1.2 var(--font-label); border-right: 1px solid var(--line); border-bottom: 2px solid var(--acc); margin-bottom: -1px; background: var(--bg); }
+.body { padding: 44px 22px 56px; }
+.body > h2.h { font: 700 22px/1.5 var(--font-body); margin-bottom: 18px; }
+.body > h2.h .k { margin-right: 6px; font-family: var(--font-label); }
+.acc-note { margin-bottom: 22px; color: var(--muted); font-size: 14px; }
+
+/* ---------- 코드 블록 (줄 번호) ---------- */
+.code { counter-reset: ln; font: 400 13px/1.85 var(--font-label); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px 0; overflow-wrap: anywhere; }
+.code .l { counter-increment: ln; display: grid; grid-template-columns: 2.6em 1fr; column-gap: 12px; padding-right: 12px; }
+.code .l::before { content: counter(ln); text-align: right; color: var(--muted); opacity: .75; user-select: none; }
+.code .t { white-space: pre-wrap; padding-left: calc(var(--i, 0) * 2ch); min-width: 0; }
+
+/* ---------- 표지 ---------- */
+.cover { padding: calc(64px + env(safe-area-inset-top)) 16px 52px; }
+.win { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); overflow: hidden; }
+.win .bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--bg); }
+.win .bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+.win .bar b { margin-left: 8px; font: 400 12px var(--font-label); color: var(--muted); }
+.term { padding: 16px 16px 18px; font: 400 13px/1.9 var(--font-label); min-height: 154px; overflow-wrap: anywhere; }
+.term div { white-space: pre-wrap; }
+.term .p { color: var(--acc); margin-right: 8px; }
+.term .out { color: var(--muted); }
+.term .ok { color: var(--s); }
+.cur { display: inline-block; width: .6ch; height: 1.1em; margin-left: 2px; background: var(--ink); vertical-align: -3px; }
+.names { margin: 42px 0 6px; display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; text-align: center; font: 700 clamp(30px, 9.5vw, 44px)/1.35 var(--font-body); letter-spacing: .02em; }
+.names > span { white-space: nowrap; }
+.names .amp { color: var(--acc); margin: 0 .35em; font-weight: 400; }
+.names-en { text-align: center; font: 400 13px var(--font-label); color: var(--muted); }
+.cover-sub { margin-top: 14px; text-align: center; font-size: 15px; }
+.cover .photo { margin-top: 34px; }
+.cap { margin-top: 8px; font: 400 12px var(--font-label); color: var(--muted); }
+.cover .release-banner { margin-top: 26px; font-family: var(--font-label); font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) {
+  .cur { animation: blink 1s steps(2, start) infinite; }
+  @keyframes blink { to { visibility: hidden; } }
+  .names { animation: up .9s cubic-bezier(.2, .7, .2, 1) 1.4s both; }
+  @keyframes up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+}
+
+/* ---------- 인사말 ---------- */
+.greet-title { font: 600 18px/1.7 var(--font-body); margin-bottom: 14px; }
+.text { font-size: 16px; line-height: 2.1; }
+.fam { margin-top: 34px; padding-top: 28px; border-top: 1px dashed var(--line); }
+.fam p { line-height: 1.9; }
+.fam p + p { margin-top: 18px; }
+.fam .c { font: 400 12px var(--font-label); }
+.fam strong { font-weight: 700; }
+
+/* ---------- 신랑 · 신부 ---------- */
+.person { display: grid; grid-template-columns: 38% 1fr; gap: 16px; align-items: start; }
+.person + .person { margin-top: 30px; }
+.person .code { font-size: 12px; }
+.person .code .l { grid-template-columns: 1.8em 1fr; column-gap: 8px; }
+
+/* ---------- 예식 안내 ---------- */
+.big-date { font: 700 22px/1.5 var(--font-body); margin-top: 22px; }
+.big-time { font: 400 16px var(--font-body); color: var(--muted); }
+.cal { margin-top: 28px; font-size: 13px; }
+.dday { margin-top: 38px; padding-top: 26px; border-top: 1px dashed var(--line); }
+.dday .num { font: 700 56px/1.1 var(--font-label); color: var(--acc); font-variant-numeric: tabular-nums; }
+.dday .unit { font: 500 20px var(--font-body); margin-left: 4px; }
+.dday .clock { font: 400 14px var(--font-label); color: var(--muted); font-variant-numeric: tabular-nums; }
+.prog { margin-top: 30px; }
+.prog .bar { margin: 8px 0 6px; height: 12px; border: 1px solid var(--line); background: var(--panel); border-radius: 2px; overflow: hidden; }
+.prog .bar i { display: block; height: 100%; background: repeating-linear-gradient(90deg, var(--acc) 0 6px, transparent 6px 8px); }
+.prog p { font: 400 12px var(--font-label); }
+
+/* ---------- 오시는 길 ---------- */
+.venue { font: 700 22px/1.5 var(--font-body); }
+.hall { color: var(--muted); font-size: 16px; }
+.addr { margin-top: 12px; }
+.maps { margin-top: 20px; }
+.info { margin-top: 34px; font-size: 14px; }
+.info dt { color: var(--f); }
+
+/* ---------- 갤러리 · 마무리 ---------- */
+.gal { margin-top: 8px; }
+.commit { margin-top: 28px; font: 400 14px/1.9 var(--font-label); }
+.commit .msg { display: block; margin: 4px 0 0 2ch; white-space: pre-line; font-family: var(--font-body); font-size: 16px; line-height: 2; color: var(--s); }
+.commit .res { margin-top: 12px; color: var(--muted); font-size: 13px; }
+.share { margin-top: 26px; }
+.versions { margin-top: 30px; padding-top: 22px; border-top: 1px dashed var(--line); font: 400 13px/2 var(--font-label); color: var(--muted); }
+.versions a { color: var(--f); }

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{GROOM_NAME}} ♥ {{BRIDE_NAME}} 결혼합니다 — developer</title>
+
+<!-- 공유 미리보기 (카카오톡·문자). 중괄호 두 겹으로 감싼 이름은 build.sh 가 invitation.conf 값으로 채웁니다. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{GROOM_NAME}} ♥ {{BRIDE_NAME}} 결혼합니다">
+<meta property="og:description" content="{{OG_DESCRIPTION}}">
+{{OG_IMAGE_TAG}}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/developer.css">
+<script>
+  /* 저장된 화면 모드를 먼저 적용해 깜빡임을 막습니다 */
+  try { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+</head>
+<body>
+
+<button class="theme" id="theme" type="button" aria-label="화면 모드 전환 (라이트/다크)">◐</button>
+
+<main class="page" id="app">
+
+  <header class="cover">
+    <div class="win" aria-hidden="true">
+      <div class="bar"><i></i><i></i><i></i><b>invitation.sh</b></div>
+      <div class="term" id="term"></div>
+    </div>
+    <p class="sr-only" id="termSr"></p>
+
+    <h1 class="names"><span id="cGroom"></span><span class="amp" aria-label="그리고">♥</span><span id="cBride"></span></h1>
+    <p class="names-en" id="cEn"></p>
+    <p class="cover-sub" id="cSub"></p>
+
+    <div class="photo" id="cPhoto"></div>
+    <p class="cap" id="cCap"></p>
+
+    <a class="release-banner" id="releaseBanner" href="release.html" hidden>$ git tag v1.0.0 — 저희 부부가 되었어요. 감사 인사 보기</a>
+  </header>
+
+  <section class="file" aria-label="인사말">
+    <div class="tab"><span>greeting.md</span></div>
+    <div class="body" id="greeting"></div>
+  </section>
+
+  <section class="file" aria-label="신랑 신부 소개">
+    <div class="tab"><span>people.json</span></div>
+    <div class="body" id="people"></div>
+  </section>
+
+  <section class="file" aria-label="예식 안내">
+    <div class="tab"><span>schedule.ts</span></div>
+    <div class="body">
+      <div id="schedule"></div>
+      <div id="cal" hidden></div>
+      <div class="dday" id="dday" hidden>
+        <p class="mono c" style="font-size:12px">$ uptime --until wedding</p>
+        <p id="ddLabel"></p>
+        <p><span class="num" id="ddNum"></span><span class="unit" id="ddUnit"></span></p>
+        <p class="clock" id="ddClock" aria-hidden="true"></p>
+      </div>
+      <div class="prog" id="prog" hidden>
+        <p class="c">$ ./loading --wedding</p>
+        <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="결혼식까지 진행률"><i></i></div>
+        <p id="pgText"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="file" aria-label="갤러리" id="galSec">
+    <div class="tab"><span>gallery/</span></div>
+    <div class="body"><div id="gal"></div></div>
+  </section>
+
+  <section class="file" aria-label="오시는 길">
+    <div class="tab"><span>directions.md</span></div>
+    <div class="body">
+      <p class="venue" id="venue"></p>
+      <p class="hall" id="hall"></p>
+      <div class="addr"><span id="addr"></span><button class="btn sm" type="button" id="copyAddr">주소 복사</button></div>
+      <div class="maps">
+        <a class="btn" id="mapNaver" target="_blank" rel="noopener">네이버지도</a>
+        <a class="btn" id="mapKakao" target="_blank" rel="noopener">카카오맵</a>
+        <a class="btn" id="venueTel">예식장 전화</a>
+      </div>
+      <dl class="info" id="info" data-subway="subway" data-bus="bus" data-parking="parking" data-meal="meal"></dl>
+    </div>
+  </section>
+
+  <section class="file" aria-label="마음 전하실 곳" id="accSec" hidden>
+    <div class="tab"><span>accounts.yml</span></div>
+    <div class="body">
+      <p class="acc-note">참석이 어려워 마음만 전하시는 분들을 위해<br>계좌번호를 안내드립니다.</p>
+      <div id="acc"></div>
+    </div>
+  </section>
+
+  <section class="file" aria-label="참석 여부" id="rsvpSec">
+    <div class="tab"><span>rsvp.sh</span></div>
+    <div class="body">
+      <p class="acc-note">준비에 도움이 되도록 참석 여부를 알려 주세요.<br>버튼을 누르면 문자 작성창이 열립니다.</p>
+      <form id="rsvp" novalidate></form>
+    </div>
+  </section>
+
+  <section class="file" aria-label="축하 한마디" id="gbSec" hidden>
+    <div class="tab"><span>guestbook.log</span></div>
+    <div class="body">
+      <p class="acc-note">두 사람에게 축하의 한마디를 남겨 주세요.</p>
+      <form id="gbForm" novalidate></form>
+      <p class="gb-count" id="gbCount"></p>
+      <div id="gbList"></div>
+      <button class="btn" type="button" id="gbMore" hidden>더보기</button>
+    </div>
+  </section>
+
+  <section class="file" aria-label="연락하기" id="contactSec">
+    <div class="tab"><span>contacts.vcf</span></div>
+    <div class="body"><div class="contact" id="contact"></div></div>
+  </section>
+
+  <section class="file" aria-label="마무리">
+    <div class="tab"><span>commit.log</span></div>
+    <div class="body">
+      <div class="photo" id="closePhoto"></div>
+      <div class="commit" id="commit"></div>
+      <div class="share">
+        <button class="btn" type="button" id="copyLink">청첩장 링크 복사</button>
+        <button class="btn fill" type="button" id="shareBtn" hidden>공유하기</button>
+      </div>
+      <p class="versions">
+        $ ls ./versions<br>
+        <a href="main.html">main.html</a> &nbsp;— 부모님·어른들께 보내는 일반 버전<br>
+        <a href="release.html">release.html</a> — 예식 후에 열립니다
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<noscript><p style="padding:24px">이 청첩장은 자바스크립트가 켜져 있어야 보입니다.</p></noscript>
+
+<script src="js/data.js"></script>
+<script src="js/private.js"></script>
+<script src="js/common.js"></script>
+<script src="js/developer.js"></script>
+</body>
+</html>

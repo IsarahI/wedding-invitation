@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>v1.0.0 released — {{GROOM_NAME}} ♥ {{BRIDE_NAME}}</title>
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{GROOM_NAME}} ♥ {{BRIDE_NAME}} — v1.0.0 released">
+<meta property="og:description" content="저희 부부가 되었습니다. 함께해 주셔서 감사합니다.">
+{{OG_IMAGE_TAG}}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/developer.css">
+<link rel="stylesheet" href="css/release.css">
+<script>
+  try { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+</head>
+<body>
+
+<button class="theme" id="theme" type="button" aria-label="화면 모드 전환 (라이트/다크)">◐</button>
+
+<main class="page" id="app">
+
+  <!-- 예식 시각 전: 403 잠금 화면. (연출일 뿐 보안이 아닙니다. 소스를 보면 내용이 보입니다) -->
+  <section class="locked" id="locked" hidden>
+    <p class="code403">403</p>
+    <p class="reason">Forbidden — release not published yet</p>
+    <p class="detail" id="lockDetail"></p>
+    <p class="lock-count mono" id="lockCount" aria-hidden="true"></p>
+    <a class="btn" href="index.html">$ cd ../invitation</a>
+  </section>
+
+  <!-- 예식 시각 후: 감사 인사 -->
+  <div id="released" hidden>
+
+    <header class="rel-head">
+      <span class="badge mono">tag: v1.0.0 — released</span>
+      <h1>저희, 부부가 되었습니다</h1>
+      <p class="sub mono" id="relSub"></p>
+    </header>
+
+    <section class="file" aria-label="상태">
+      <div class="tab"><span>status.txt</span></div>
+      <div class="body">
+        <div class="code" id="status"></div>
+      </div>
+    </section>
+
+    <section class="file" aria-label="변경 내역">
+      <div class="tab"><span>CHANGELOG.md</span></div>
+      <div class="body">
+        <!-- ★ 아래 변경 내역은 자유롭게 고쳐 쓰세요. 두 사람만 아는 이야기를 넣으면 더 재밌습니다. -->
+        <div class="code" id="changelog"></div>
+      </div>
+    </section>
+
+    <section class="file" aria-label="감사 인사">
+      <div class="tab"><span>thanks.md</span></div>
+      <div class="body">
+        <p class="thanks pre" id="thanks"></p>
+        <p class="thanks-names" id="thanksNames"></p>
+        <div class="share">
+          <a class="btn fill" href="main.html">청첩장으로</a>
+          <a class="btn" href="developer.html">개발자 버전으로</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<noscript><p style="padding:24px">이 페이지는 자바스크립트가 켜져 있어야 보입니다.</p></noscript>
+
+<script src="js/data.js"></script>
+<script src="js/private.js"></script>
+<script src="js/common.js"></script>
+<script src="js/release.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{GROOM_NAME}} ♥ {{BRIDE_NAME}} 결혼합니다</title>
+
+<!-- 공유 미리보기 (카카오톡·문자). 중괄호 두 겹으로 감싼 이름은 build.sh 가 invitation.conf 값으로 채웁니다. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{GROOM_NAME}} ♥ {{BRIDE_NAME}} 결혼합니다">
+<meta property="og:description" content="{{OG_DESCRIPTION}}">
+{{OG_IMAGE_TAG}}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/main.css">
+<script>
+  /* 저장된 글자 크기를 먼저 적용해 화면이 튀지 않게 합니다 */
+  try { var z = localStorage.getItem('fontsize'); if (z) document.documentElement.setAttribute('data-size', z); } catch (e) {}
+</script>
+</head>
+<body>
+
+<button class="fsz" id="fsz" type="button" aria-label="글자 크기 바꾸기">가</button>
+
+<main class="page" id="app">
+
+  <header class="cover">
+    <div class="cover-photo" id="cPhoto"></div>
+    <p class="cover-date" id="cDate"></p>
+    <h1>
+      <span class="vname" id="cGroom"></span>
+      <span class="seal" aria-label="그리고">囍</span>
+      <span class="vname b" id="cBride"></span>
+    </h1>
+    <div class="cover-bottom">
+      <p class="en" id="cEn"></p>
+      <p id="cVenue"></p>
+    </div>
+  </header>
+
+  <a class="release-banner" id="releaseBanner" href="release.html" hidden>저희 부부가 되었습니다. 감사 인사 보기</a>
+
+  <section class="sec" aria-labelledby="hGreet">
+    <h2 id="hGreet">초대합니다</h2>
+    <p class="greet-title pre" id="greetTitle"></p>
+    <p class="greet-text pre" id="greetText"></p>
+    <div class="family" id="family"></div>
+  </section>
+
+  <section class="sec band" aria-labelledby="hPair">
+    <h2 id="hPair">신랑 · 신부</h2>
+    <div class="pair" id="pair"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="hWhen">
+    <h2 id="hWhen">예식 안내</h2>
+    <p class="when-date" id="whenDate"></p>
+    <p class="when-time" id="whenTime"></p>
+    <p class="when-venue" id="whenVenue"></p>
+    <div id="cal" class="cal-box" hidden></div>
+    <p class="dday" id="dday" hidden></p>
+  </section>
+
+  <section class="sec band" aria-labelledby="hGal" id="galSec">
+    <h2 id="hGal">갤러리</h2>
+    <div id="gal"></div>
+    <p class="hint">사진을 누르면 크게 볼 수 있습니다.</p>
+  </section>
+
+  <section class="sec" aria-labelledby="hLoc">
+    <h2 id="hLoc">오시는 길</h2>
+    <p class="venue" id="venue"></p>
+    <p class="hall" id="hall"></p>
+    <div class="addr"><span id="addr"></span><button class="btn sm" type="button" id="copyAddr">주소 복사</button></div>
+    <div class="maps">
+      <a class="btn" id="mapNaver" target="_blank" rel="noopener">네이버지도</a>
+      <a class="btn" id="mapKakao" target="_blank" rel="noopener">카카오맵</a>
+      <a class="btn" id="venueTel">예식장 전화</a>
+    </div>
+    <dl class="info" id="info"></dl>
+  </section>
+
+  <section class="sec band" aria-labelledby="hAcc" id="accSec" hidden>
+    <h2 id="hAcc">마음 전하실 곳</h2>
+    <p class="lead">참석이 어려워 마음만 전하시는 분들을 위해<br>계좌번호를 안내드립니다.</p>
+    <div id="acc"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="hRsvp" id="rsvpSec">
+    <h2 id="hRsvp">참석 여부 알리기</h2>
+    <p class="lead">준비에 도움이 되도록 알려 주시면 감사하겠습니다.<br>버튼을 누르면 문자 작성창이 열립니다.</p>
+    <form id="rsvp" novalidate></form>
+  </section>
+
+  <section class="sec band" aria-labelledby="hGb" id="gbSec" hidden>
+    <h2 id="hGb">축하 한마디</h2>
+    <p class="lead">두 사람에게 따뜻한 말씀을 남겨 주세요.</p>
+    <form id="gbForm" novalidate></form>
+    <p class="gb-count" id="gbCount"></p>
+    <div id="gbList"></div>
+    <button class="btn" type="button" id="gbMore" hidden>더보기</button>
+  </section>
+
+  <section class="sec" aria-labelledby="hContact" id="contactSec">
+    <h2 id="hContact">연락하기</h2>
+    <div class="contact" id="contact"></div>
+  </section>
+
+  <section class="sec closing" aria-label="마무리">
+    <div class="photo" id="closePhoto"></div>
+    <p class="msg pre" id="closeMsg"></p>
+    <p class="names" id="closeNames"></p>
+    <div class="share">
+      <button class="btn" type="button" id="copyLink">청첩장 링크 복사</button>
+      <button class="btn fill" type="button" id="shareBtn" hidden>공유하기</button>
+    </div>
+    <p class="other">
+      신랑·신부 친구들을 위한 <a href="developer.html">개발자 버전</a>도 있습니다.
+    </p>
+  </section>
+
+</main>
+
+<noscript><p style="padding:24px">이 청첩장은 자바스크립트가 켜져 있어야 보입니다.</p></noscript>
+
+<script src="js/data.js"></script>
+<script src="js/private.js"></script>
+<script src="js/common.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

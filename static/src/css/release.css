@@ -1,0 +1,17 @@
+/* release.css — release.html 전용. developer.css 위에 얹습니다. */
+.locked { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 40px 24px; text-align: center; }
+.locked[hidden] { display: none; }
+.code403 { font: 700 76px/1 var(--font-label); letter-spacing: .04em; color: var(--acc); }
+.reason { font: 400 14px var(--font-label); }
+.detail { font-size: 15px; line-height: 2; color: var(--muted); }
+.lock-count { margin: 6px 0 20px; font-size: 15px; color: var(--n); font-variant-numeric: tabular-nums; }
+
+.rel-head { padding: calc(70px + env(safe-area-inset-top)) 24px 30px; text-align: center; }
+.rel-head .badge { display: inline-block; padding: 6px 16px; border: 1px solid var(--s); border-radius: 99px; font-size: 13px; letter-spacing: .08em; color: var(--s); }
+.rel-head h1 { margin-top: 22px; word-break: keep-all; font: 700 clamp(26px, 8vw, 34px)/1.4 var(--font-body); }
+.rel-head .sub { margin-top: 10px; font-size: 13px; color: var(--muted); }
+
+.code .ok { color: var(--s); } .code .bad { color: var(--acc); } .code .dim { color: var(--muted); } .code .del { color: var(--muted); text-decoration: line-through; }
+.thanks { font-size: 17px; line-height: 2.2; }
+.thanks-names { margin-top: 22px; font: 400 14px var(--font-label); color: var(--muted); }
+.thanks-names + .share { margin-top: 30px; }

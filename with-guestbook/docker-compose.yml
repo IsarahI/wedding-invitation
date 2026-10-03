@@ -1,0 +1,19 @@
+# 서비스 하나, 볼륨 하나.
+#   docker compose up -d --build      →  http://localhost:8080
+services:
+  invitation:
+    build:
+      context: ..
+      dockerfile: with-guestbook/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-}      # 글 삭제용 비밀번호. 쓰려면 .env 에 적으세요.
+      TRUST_PROXY: ${TRUST_PROXY:-0}     # reverse proxy 뒤에 둘 때만 1
+    volumes:
+      - ./invitation.conf:/conf/invitation.conf:ro
+      - ../static/src/photos:/app/static/src/photos:ro
+      - guestbook-data:/data
+    restart: unless-stopped
+volumes:
+  guestbook-data:
